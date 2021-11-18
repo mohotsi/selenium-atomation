@@ -2,6 +2,7 @@ package com.saucedemo.seleniumatomation.page;
 
 import com.saucedemo.seleniumatomation.annotation.Page;
 import lombok.val;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -56,6 +57,12 @@ public abstract class SharedComponents {
     public void select(WebElement menu,String itemText){
         val select= new Select(menu);
         select.selectByVisibleText(itemText);
+    }
+    public void highlight(WebElement element){
+        String javascript = "document.getElementById('email').style.border='2px solid red'";
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript(javascript);
+        jsExecutor.executeScript("arguments[0].setAttribute('style', 'background: GreenYellow; border: GreenYellow;color:black;');", element);
     }
     public abstract boolean pageIsLoaded();
 

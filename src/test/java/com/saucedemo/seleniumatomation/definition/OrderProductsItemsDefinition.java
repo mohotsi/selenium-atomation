@@ -7,10 +7,13 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import lombok.val;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -39,19 +42,27 @@ public class OrderProductsItemsDefinition {
 
 
     @And("Add item {string} to cart")
-    public void addItemToCart(String itemName) throws Exception {
-        ItemPageComponent itemPageComponent=shoppingPage.getItems().stream().
-                filter(x->x.getName().getText().equalsIgnoreCase(itemName))
-                .findFirst().get();
-        shoppingPage.clickRetry(itemPageComponent.getAddToCartButton());
-        String url=itemPageComponent.getImage().getAttribute("src");
-        System.out.println("their url"+url);
-        val builer= Item.builder();
+    public void addItemToCart(String itemName) {
+       shoppingPage.getItems().stream().
+                filter(x->x.getName().getText().equalsIgnoreCase(itemName)).forEach(itemCom-> {
+                   shoppingPage.clickRetry(itemCom.getAddToCartButton());
+           String url=itemCom.getImage().getAttribute("src");
+           System.out.println("their url"+url);
+           val builer= Item.builder();
 
-        val item=builer.description(itemPageComponent.getDescription().getText())
-                .image(new Item().readImageFromUrl(url)).name(itemPageComponent.getName().getText())
-                .price(itemPageComponent.getPriceValue()).build();
-        GlobalVariable.addedToCart.put(itemName,item);
+            try{
+           val item=builer.description(itemCom.getDescription().getText())
+                   .image(new Item().readImageFromUrl(url)).name(itemCom.getName().getText())
+                   .price(itemCom.getPriceValue()).build();
+                GlobalVariable.addedToCart.put(itemName,item);
+            }catch (Exception e){
+
+            }
+
+
+               }
+       );
+
     }
 
     @And("Navigate to Cart page")
@@ -65,15 +76,17 @@ public class OrderProductsItemsDefinition {
         val itemsOnCartPage=cartPage.getItems().stream().map(itm->
                 Item.builder().name(itm.getName().getText()).price(itm.getPriceValue())
                         .description(itm.getDescription().getText()).build()
-                ).collect(Collectors.toList());
+                ).sorted(Comparator.comparing(Item::getName)).collect(Collectors.toList());
         /**
          * You need to exclude image , re map without the image. reason is because the image is not displayed in
          * the cart page
          */
      val itemsWhichWereAddedToTheCart=GlobalVariable.addedToCart.values().stream()
-             .map(x->Item.builder().price(x.getPrice()).name(x.getName()).description(x.getDescription()).build()).collect(Collectors.toList());
+             .map(x->Item.builder().price(x.getPrice()).name(x.getName()).description(x.getDescription())
+                     .build()).sorted(Comparator.comparing(Item::getName)).collect(Collectors.toList());
+        System.out.println("");
      assertThat("the items on cart page are not equal to items which were added to cart",itemsOnCartPage,equalTo(itemsWhichWereAddedToTheCart));
-     System.out.println("");
+
     }
     public static Item toItem(ItemPageComponent itemPageComponent) throws Exception {
         val builer= Item.builder();

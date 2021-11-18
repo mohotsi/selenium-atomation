@@ -35,7 +35,7 @@ import java.util.List;
     }
 
     public WebElement getAddToCartButton(){
-        return  item.findElement(By.xpath("//button[text()='Add to cart']"));
+        return  item.findElement(By.tagName("button"));
     }
     public WebElement getRemoveButton(){
         return  item.findElement(By.xpath("//button[text()='Remove']"));
