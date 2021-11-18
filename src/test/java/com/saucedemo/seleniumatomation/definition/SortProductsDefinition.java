@@ -1,8 +1,7 @@
 package com.saucedemo.seleniumatomation.definition;
 
 import com.google.gson.Gson;
-import com.saucedemo.seleniumatomation.Model.Item;
-import com.saucedemo.seleniumatomation.config.GlobalVariable;
+import com.saucedemo.seleniumatomation.config.SaveVariables;
 import com.saucedemo.seleniumatomation.page.ItemPageComponent;
 import com.saucedemo.seleniumatomation.page.LoginPage;
 import com.saucedemo.seleniumatomation.page.ShoppingPage;

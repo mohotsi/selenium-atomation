@@ -1,15 +1,9 @@
 package com.saucedemo.seleniumatomation.page;
 
-import com.saucedemo.seleniumatomation.Model.Item;
-import com.saucedemo.seleniumatomation.annotation.Page;
-import com.saucedemo.seleniumatomation.config.GlobalVariable;
-import lombok.val;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.List;
-
- public class ItemPageComponent {
+public class ItemPageComponent {
     WebElement item;
 
     public ItemPageComponent(WebElement item) {

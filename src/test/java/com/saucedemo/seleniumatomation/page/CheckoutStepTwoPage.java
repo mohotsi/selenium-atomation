@@ -3,6 +3,7 @@ package com.saucedemo.seleniumatomation.page;
 import com.google.common.collect.Streams;
 import com.saucedemo.seleniumatomation.Model.TagPrice;
 import com.saucedemo.seleniumatomation.annotation.Page;
+import lombok.val;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -35,7 +36,7 @@ public class CheckoutStepTwoPage extends SharedComponents {
     public void clickFinishButton(){
         clickRetry(finish);
     }
-    public TagPrice getSubTotal(){
+    public TagPrice getItemTotal(){
         return getPrice(summary_subtotal_label.getText());
     }
     public TagPrice getTotal(){
@@ -44,10 +45,11 @@ public class CheckoutStepTwoPage extends SharedComponents {
     public TagPrice getTax(){
         return getPrice(summary_tax_label.getText());
     }
-    private TagPrice getPrice(String txt){
+    private TagPrice getPrice(final String txt){
         TagPrice tagPrice = new TagPrice();
-        tagPrice.setItemName(txt.replaceAll(".*([a-zA-Z]+).*","$1"));
-        tagPrice.setValue(Double.parseDouble(txt.replaceAll(".*([0-9\\.]+).*","$1")));
+        val extractValues=txt.replaceAll("([a-zA-Z]+):\\s\\$([0-9\\.]+)","$1,$2").split(",");
+        tagPrice.setItemName(extractValues[0]);
+        tagPrice.setValue(Double.parseDouble(extractValues[1]));
       return  tagPrice;
     }
 

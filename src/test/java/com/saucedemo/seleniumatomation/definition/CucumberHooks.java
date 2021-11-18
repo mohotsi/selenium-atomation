@@ -39,8 +39,7 @@ public class CucumberHooks {
 
     @After()
     public void afterscenari() throws InterruptedException {
-        val driver=this.applicationContext.getBean(WebDriver.class);
-       // driver.manage().deleteAllCookies();
-       // driver.quit();
+        driver.manage().deleteAllCookies();
+
     }
 }

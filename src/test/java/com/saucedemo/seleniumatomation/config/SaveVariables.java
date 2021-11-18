@@ -7,8 +7,9 @@ import lombok.val;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GlobalVariable {
+public class SaveVariables {
    public static HashMap<String, Item> addedToCart =new HashMap<String,Item>();
+   public static Item selectedItem;
 
 
 

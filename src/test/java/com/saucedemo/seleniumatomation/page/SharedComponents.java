@@ -30,7 +30,8 @@ public abstract class SharedComponents {
     WebElement shopping_cart_link;
     @FindBy(className = "cart_item")
     List<WebElement> items;
-
+    @FindBy(className = "shopping_cart_badge")
+    WebElement shopping_cart_badge;
 
     @PostConstruct
     private void init(){
@@ -43,6 +44,11 @@ public abstract class SharedComponents {
         wait.until(ExpectedConditions.elementToBeClickable(webElement));
         webElement.click();
     }
+
+    public WebElement getShopping_cart_badge() {
+        return shopping_cart_badge;
+    }
+
     public void navigateToShoppingCart(){
         clickRetry(shopping_cart_link);
     }
