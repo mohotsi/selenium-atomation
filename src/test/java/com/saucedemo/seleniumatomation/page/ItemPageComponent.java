@@ -28,11 +28,9 @@ public class ItemPageComponent {
        return getImage().getAttribute("scr");
     }
 
-    public WebElement getAddToCartButton(){
+    public WebElement button(){
         return  item.findElement(By.tagName("button"));
     }
-    public WebElement getRemoveButton(){
-        return  item.findElement(By.tagName("button"));
-    }
+
     public WebElement getQuantity(){return  item.findElement(By.className("cart_quantity"));}
 }

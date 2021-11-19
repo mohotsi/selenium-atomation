@@ -8,17 +8,20 @@ import io.cucumber.java.en.Then;
 
 import lombok.val;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.everyItem;
 
 public class OrderProductsItemsDefinition {
 
@@ -64,7 +67,7 @@ public class OrderProductsItemsDefinition {
                 filter(x ->
                         itemNames.asMaps().stream().map(y->y.get("itemName")).collect(Collectors.toList()).contains( x.getName().getText())
                        ).forEach(itemCom -> {
-                    shoppingPage.clickRetry(itemCom.getAddToCartButton());
+                    shoppingPage.clickRetry(itemCom.button());
                     String url = itemCom.getImage().getAttribute("src");
                     System.out.println("their url" + url);
                     val builer = Item.builder();
@@ -204,7 +207,7 @@ public class OrderProductsItemsDefinition {
                         itemNames.asMaps().stream().map(y->y.get("itemName")).collect(Collectors.toList()).contains( x.getName().getText())
                 ).forEach(itemCom -> {
 
-            shoppingPage.clickRetry(itemCom.getRemoveButton());
+            shoppingPage.clickRetry(itemCom.button());
             itemNames.asMaps().stream().map(y->y.get("itemName")).collect(Collectors.toList()).forEach(x->
                     addedToCart.remove(x)    );
 
@@ -216,7 +219,36 @@ public class OrderProductsItemsDefinition {
         );
 
     }
+    @Then("validate product items {string}")
+    public void validateProductItems(String arg0) {
+        val itemsCom=( shoppingPage.getItems().isEmpty())?cartPage.getItems() : shoppingPage.getItems();
 
+       val items=  itemsCom.stream().map(i->{
+                     String url = i.getImage().getAttribute("src");
+                     System.out.println("their url" + url);
+                     val builer = Item.builder();
+
+                     try {
+                         val item = builer.description(i.getDescription().getText())
+                                 .image(new Item().readImageFromUrl(url)).name(i.getName().getText())
+                                 .price(i.getPriceValue()).build();
+                         return item;
+                     } catch (Exception e) {
+                      return  new Item();
+                     }
+                 }
+
+
+                 );
+           if(arg0.equalsIgnoreCase("images are distinct")){
+               val images=items.map(x->x.getImage()).collect(Collectors.toList());
+               val expected=images.stream().distinct().collect(Collectors.toList());
+               assertThat(images,equalTo(expected));
+               System.out.println("hallelujah");
+           }
+
+
+    }
 
 
 }

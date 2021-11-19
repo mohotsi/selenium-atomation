@@ -20,4 +20,6 @@ public class UserDefinition {
     public void loginWithUsernameAndPassword(String username, String password) {
         loginPage.loginWith(username, password);
     }
+
+
 }
