@@ -1,7 +1,6 @@
 package com.saucedemo.seleniumatomation.definition;
 
 import com.saucedemo.seleniumatomation.Model.Item;
-import com.saucedemo.seleniumatomation.config.SaveVariables;
 import com.saucedemo.seleniumatomation.page.*;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
@@ -40,7 +39,8 @@ public class OrderProductsItemsDefinition {
     @Autowired
     @Lazy
     InventoryItemPage inventoryItemPage;
-
+    public  HashMap<String, Item> addedToCart =new HashMap<String,Item>();
+    public  Item selectedItem;
     @Value("${application.url}")
     private String url;
 
@@ -68,7 +68,7 @@ public class OrderProductsItemsDefinition {
                         val item = builer.description(itemCom.getDescription().getText())
                                 .image(new Item().readImageFromUrl(url)).name(itemCom.getName().getText())
                                 .price(itemCom.getPriceValue()).build();
-                        SaveVariables.addedToCart.put(itemCom.getName().getText(), item);
+                        addedToCart.put(itemCom.getName().getText(), item);
                     } catch (Exception e) {
 
                     }
@@ -95,7 +95,7 @@ public class OrderProductsItemsDefinition {
          * You need to exclude image , re map without the image. reason is because the image is not displayed in
          * the cart page
          */
-        val itemsWhichWereAddedToTheCart =SaveVariables.addedToCart.values().stream()
+        val itemsWhichWereAddedToTheCart =addedToCart.values().stream()
                 .map(x -> Item.builder().price(x.getPrice()).name(x.getName()).description(x.getDescription())
                         .build()).sorted(Comparator.comparing(Item::getName)).collect(Collectors.toList());
         System.out.println();
@@ -122,7 +122,7 @@ public class OrderProductsItemsDefinition {
 
     @Then("Verify the total Amount charge is correct")
     public void verifyTheTotalAmountChargeIsCorrect() {
-        val prices = SaveVariables.addedToCart.values().stream();
+        val prices =addedToCart.values().stream();
         val expectedItemTotal = prices.mapToDouble(item -> item.getPrice()).sum();
         val actualItemTotal = checkoutStepTwoPage.getItemTotal();
         val tax = checkoutStepTwoPage.getTax().getValue();
@@ -157,7 +157,7 @@ public class OrderProductsItemsDefinition {
             val item = builer.description(itemCom.getDescription().getText())
                     .image(new Item().readImageFromUrl(url)).name(itemCom.getName().getText())
                     .price(itemCom.getPriceValue()).build();
-           SaveVariables.selectedItem=item;
+          selectedItem=item;
         } catch (Exception e) {
 
         }
@@ -171,7 +171,7 @@ public class OrderProductsItemsDefinition {
         val iventoryItemData=Item.builder().name(inventoryItemPage.getName())
                 .price(inventoryItemPage.getPrice()).description(inventoryItemPage.getDescription())
                 .image(inventoryItemPage.getImage()).build();
-        assertThat(iventoryItemData,equalTo(SaveVariables.selectedItem));
+        assertThat(iventoryItemData,equalTo(selectedItem));
 
     }
 
@@ -181,12 +181,12 @@ public class OrderProductsItemsDefinition {
         val iventoryItemData=Item.builder().name(inventoryItemPage.getName())
                 .price(inventoryItemPage.getPrice()).description(inventoryItemPage.getDescription())
                 .image(inventoryItemPage.getImage()).build();
-       SaveVariables.addedToCart.put(iventoryItemData.getName(),iventoryItemData);
+       addedToCart.put(iventoryItemData.getName(),iventoryItemData);
 
     }
     @And("shopping cart badge increments by number of items added to cart")
     public void shoppingCartBadgeIncrementsByNumberOfItemsAddedToCart() {
-        assertThat("shopping cart badge doesn't increments by number of items added to cart",Integer.parseInt(shoppingPage.getShopping_cart_badge().getText()),equalTo(SaveVariables.addedToCart.size()));
+        assertThat("shopping cart badge doesn't increments by number of items added to cart",Integer.parseInt(shoppingPage.getShopping_cart_badge().getText()),equalTo(addedToCart.size()));
         ;
     }
 }
