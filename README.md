@@ -34,6 +34,8 @@ to run remotely specify  with firefox
 
 mvn clean test -Dbrowser=firefox -Dspring.profiles.active=remote
 
+#Report setting on : target/output/HtmlReports.html, target/output/HtmlReports.json
+
 
 
 
