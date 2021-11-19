@@ -7,6 +7,8 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 
 import lombok.val;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -43,6 +45,9 @@ public class OrderProductsItemsDefinition {
     public  Item selectedItem;
     @Value("${application.url}")
     private String url;
+    @Autowired
+    @Lazy
+    WebDriver driver;
 
     public static Item toItem(ItemPageComponent itemPageComponent) throws Exception {
         val builer = Item.builder();
@@ -188,5 +193,27 @@ public class OrderProductsItemsDefinition {
     public void shoppingCartBadgeIncrementsByNumberOfItemsAddedToCart() {
         assertThat("shopping cart badge doesn't increments by number of items added to cart",Integer.parseInt(shoppingPage.getShopping_cart_badge().getText()),equalTo(addedToCart.size()));
         ;
+    }
+
+    @And("Remove Item from Cart")
+    public void removeItemFromCart(DataTable itemNames) throws InterruptedException {
+        val myItems=( shoppingPage.getItems().isEmpty())?cartPage.getItems() : shoppingPage.getItems();
+
+        myItems.stream().
+                filter(x ->
+                        itemNames.asMaps().stream().map(y->y.get("itemName")).collect(Collectors.toList()).contains( x.getName().getText())
+                ).forEach(itemCom -> {
+
+            shoppingPage.clickRetry(itemCom.getRemoveButton());
+            itemNames.asMaps().stream().map(y->y.get("itemName")).collect(Collectors.toList()).forEach(x->
+                    addedToCart.remove(x)    );
+
+
+
+
+
+                }
+        );
+
     }
 }

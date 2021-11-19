@@ -47,7 +47,3 @@ Scenario: View(Enlarge) by clicking its name Item inventory Item page and Order
 
 
 
-
-
-
-

@@ -32,7 +32,7 @@ public class ItemPageComponent {
         return  item.findElement(By.tagName("button"));
     }
     public WebElement getRemoveButton(){
-        return  item.findElement(By.xpath("//button[text()='Remove']"));
+        return  item.findElement(By.tagName("button"));
     }
     public WebElement getQuantity(){return  item.findElement(By.className("cart_quantity"));}
 }
