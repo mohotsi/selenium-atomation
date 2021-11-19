@@ -25,9 +25,9 @@ public class CheckoutStepOnePage extends SharedComponents {
    private WebElement error;
 
    public void fillInForm(String firstName,String lastName,String postalCode){
-       waitPageToDisplay(this.firstName).sendKeys(firstName);
-       this.lastName.sendKeys(lastName);
-       this.postalCode.sendKeys(postalCode);
+       waitPageToDisplay(this.firstName).sendKeys(firstName==null?"" :firstName);
+       this.lastName.sendKeys(lastName==null?"":lastName);
+       this.postalCode.sendKeys(postalCode==null?"":postalCode);
    }
    public WebElement error(){
        return error ;

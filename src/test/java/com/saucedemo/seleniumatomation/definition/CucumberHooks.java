@@ -40,6 +40,7 @@ public class CucumberHooks {
     @After()
     public void afterscenari() throws InterruptedException {
         driver.manage().deleteAllCookies();
+        driver.quit();
 
     }
 }
