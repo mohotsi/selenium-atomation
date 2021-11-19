@@ -22,6 +22,9 @@ public class LoginPage extends SharedComponents {
     WebElement cart_quantity_label;
     @FindBy(className = "cart_desc_label")
     WebElement description;
+    @FindBy(className = "error-button")
+    WebElement error;
+
 
     public String getQuantityLabel(){
       return   cart_quantity_label.getText();
@@ -35,6 +38,15 @@ public class LoginPage extends SharedComponents {
         password.sendKeys("secret_sauce");
         clickRetry(loginButton);
 
+    }
+    public void loginWith(String username,String password){
+        waitPageToDisplay(this.username).sendKeys(username);
+        this.password.sendKeys(password);
+        clickRetry(loginButton);
+
+    }
+    public String getError(){
+       return error.getText();
     }
 
 
