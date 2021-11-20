@@ -50,10 +50,7 @@ public class WebDriverBean extends BrowserCommonShare {
         return new ChromeDriver();
     }
 
-    @Bean
-    public WebDriverWait webDriverWait(WebDriver driver){
-        return  new WebDriverWait(driver,timeout);
-    }
+
 
 
 
