@@ -24,7 +24,6 @@ run testNG file
 testng.xml
 src/main/resources/testng.xml
 
-
 run with firefox on terminal
 
 mvn clean test -Dbrowser=firefox
@@ -36,6 +35,8 @@ mvn clean test -Dbrowser=firefox -Dspring.profiles.active=remote
 
 #Report setting on : target/output/HtmlReports.html, target/output/HtmlReports.json
 
+the source root directory has selenium beans
+the test directory has pages; features, definitions,cucumber config, cucumber runner
 
 
 
