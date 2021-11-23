@@ -32,6 +32,7 @@ mvn clean test -Dbrowser=firefox
 to run remotely specify  with firefox
 
 mvn clean test -Dbrowser=firefox -Dspring.profiles.active=remote
+
 thread count is configured in the pom.xml
 
 	<configuration>
