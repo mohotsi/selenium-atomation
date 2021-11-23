@@ -33,6 +33,14 @@ to run remotely specify  with firefox
 
 mvn clean test -Dbrowser=firefox -Dspring.profiles.active=remote
 
+thread count is configured in the pom.xml
+
+	<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+					<parallel>both</parallel>
+					<threadCount>3</threadCount>
+				</configuration>
+
 #Report setting on : target/output/HtmlReports.html, target/output/HtmlReports.json
 
 the source root directory has selenium beans
