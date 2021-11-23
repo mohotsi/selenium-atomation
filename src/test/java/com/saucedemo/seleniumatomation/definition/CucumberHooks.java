@@ -37,7 +37,7 @@ public class CucumberHooks {
             scenario.attach(applicationContext.getBean(TakesScreenshot.class).getScreenshotAs(OutputType.BYTES), "image/png", scenario.getName());
     }
 
-    @After()
+    @After
     public void afterscenari() throws InterruptedException {
         driver.manage().deleteAllCookies();
         driver.quit();
