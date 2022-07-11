@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Profile;
 
 
 @Browser
-@Profile("remote")
  abstract class BrowserCommonShare {
 
 

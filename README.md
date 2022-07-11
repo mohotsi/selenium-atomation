@@ -1,4 +1,16 @@
-# selenium-automation
+sudo docker run --rm -ti --name zalenium -p 4444:4444 \
+      -v /var/run/docker.sock:/var/run/docker.sock \
+      -v /tmp/videos:/home/Thapelo/videos \
+      --privileged dosel/zalenium startsudo docker run --rm -ti --name zalenium -p 4444:4444 \
+      -v /var/run/docker.sock:/var/run/docker.sock \
+      -v /tmp/videos:/home/Thapelo/videos \
+      --privileged dosel/zalenium startsudo docker run --rm -ti --name zalenium -p 4444:4444 \
+      -v /var/run/docker.sock:/var/run/docker.sock \
+      -v /tmp/videos:/home/Thapelo/videos \
+      --privileged dosel/zalenium start# selenium-automationsudo docker run --rm -ti --name zalenium -p 4444:4444 \
+      -v /var/run/docker.sock:/var/run/docker.sock \
+      -v /tmp/videos:/home/Thapelo/videos \
+      --privileged dosel/zalenium start
 
 Test Automation Selenium 
 
@@ -31,7 +43,7 @@ mvn clean test -Dbrowser=firefox
 
 to run remotely specify  with firefox
 
-mvn clean test -Dbrowser=firefox -Dspring.profiles.active=remote
+mvn clean test -Dbrowser=chome -Dspring.profiles.active=remote
 
 thread count is configured in the pom.xml
 

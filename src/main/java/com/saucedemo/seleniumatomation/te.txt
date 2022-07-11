@@ -1,0 +1,12 @@
+sudo docker run --rm -ti --name zalenium -p 4444:4444  -v /var/run/docker.sock:/var/run/docker.sock  -v /tmp/videos:/home/seluser/videos  --privileged dosel/zalenium start --desiredContainers 1
+ # Pull docker-selenium
+    docker pull elgalu/selenium
+
+    # Pull Zalenium
+    docker pull dosel/zalenium
+
+
+http://172.17.0.2:4445/grid/console/
+
+  http://localhost:4444/grid/console
+   http://localhost:4444/grid/thapelo/live
