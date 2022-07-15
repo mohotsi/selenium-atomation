@@ -4,6 +4,7 @@ package com.saucedemo.seleniumatomation.driver.beans.config;
 import com.saucedemo.seleniumatomation.annotation.Browser;
 import com.saucedemo.seleniumatomation.annotation.ThreadBrowsing;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.val;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,6 +17,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+
+import java.io.File;
 
 @Browser
 @Profile("!remote")
